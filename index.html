@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLKF.FIT</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar hide-on-login">
+      <div class="brand-panel">
+        <div class="brand-logo">BLKF.FIT</div>
+        <div class="brand-tag">Fitness + Medicina Esportiva</div>
+      </div>
+      <nav class="main-nav" aria-label="Menu principal">
+        <button data-screen="dashboard" class="nav-link active">Dashboard</button>
+        <button data-screen="training" class="nav-link">Treino</button>
+        <button data-screen="nutrition" class="nav-link">Dieta</button>
+        <button data-screen="progress" class="nav-link">Progresso</button>
+        <button data-screen="coach" class="nav-link">IA Coach</button>
+        <button data-screen="hormones" class="nav-link">Área Hormonal</button>
+        <button data-screen="medical" class="nav-link">Consultoria Médica</button>
+        <button data-screen="community" class="nav-link">Comunidade</button>
+        <button data-screen="profile" class="nav-link">Perfil</button>
+        <button data-screen="settings" class="nav-link">Configurações</button>
+        <button data-screen="blueprint" class="nav-link">Plano Master</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="logout-button" class="button-secondary">Sair</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="screen welcome-screen" id="login-screen">
+        <div class="auth-card">
+          <h1>BLKF.FIT</h1>
+          <p>Bem-vindo ao app premium de fitness e medicina esportiva. Faça login ou cadastre-se para começar.</p>
+          <form id="login-form" class="auth-form">
+            <label>Usuário
+              <input type="email" id="login-email" placeholder="email@exemplo.com" required />
+            </label>
+            <label>Senha
+              <input type="password" id="login-password" placeholder="********" required />
+            </label>
+            <button type="submit" class="button-primary">Entrar</button>
+          </form>
+          <div class="auth-switch">
+            <p>Não tem conta? <button id="show-register" class="link-button">Criar conta</button></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen welcome-screen hidden" id="register-screen">
+        <div class="auth-card">
+          <h1>Crie sua conta</h1>
+          <p>Escolha seu nível e personalize protocolos individuais.</p>
+          <form id="register-form" class="auth-form">
+            <label>Nome completo
+              <input type="text" id="register-name" placeholder="Seu nome" required />
+            </label>
+            <label>E-mail
+              <input type="email" id="register-email" placeholder="email@exemplo.com" required />
+            </label>
+            <label>Senha
+              <input type="password" id="register-password" placeholder="********" required />
+            </label>
+            <label>Tipo de usuário
+              <select id="register-role" required>
+                <option value="Usuário comum" selected>Usuário comum</option>
+                <option value="Usuário Premium">Usuário Premium</option>
+                <option value="Usuário Elite">Usuário Elite</option>
+              </select>
+            </label>
+            <button type="submit" class="button-primary">Criar conta</button>
+          </form>
+          <div class="auth-switch">
+            <p>Já tem conta? <button id="show-login" class="link-button">Fazer login</button></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen welcome-screen hidden" id="onboarding-screen">
+        <div class="auth-card onboarding-card">
+          <h1>Onboarding Inteligente</h1>
+          <p>Vamos montar seu primeiro protocolo personalizado com foco em treino, dieta e monitoramento médico.</p>
+          <div class="onboarding-steps">
+            <div class="step-card">
+              <h3>1. Objetivo</h3>
+              <p>Defina se você quer definir, ganhar massa ou melhorar saúde hormonal.</p>
+            </div>
+            <div class="step-card">
+              <h3>2. Perfil</h3>
+              <p>Capturamos seus dados, histórico e prioridades para um plano único.</p>
+            </div>
+            <div class="step-card">
+              <h3>3. Protocolo</h3>
+              <p>Seu plano será individual, seguro e ajustado ao seu nível de usuário.</p>
+            </div>
+          </div>
+          <button id="complete-onboarding" class="button-primary">Começar agora</button>
+        </div>
+      </section>
+
+      <section class="screen hide-on-login" id="dashboard-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Olá, <span id="user-greeting">usuário</span></h2>
+            <p id="user-role-label" class="role-label"></p>
+          </div>
+          <div class="status-pill" id="user-status-pill">Plano Ativo</div>
+        </header>
+
+        <div class="grid-3">
+          <article class="metric-card">
+            <span class="metric-title">Protocolos Individuais</span>
+            <strong id="protocol-count">0</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-title">Treinos realizados</span>
+            <strong id="session-count">0</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-title">Sugestões IA</span>
+            <strong id="ai-suggestions">Pronto</strong>
+          </article>
+        </div>
+
+        <section class="panel-grid">
+          <article class="panel-card">
+            <h3>Resumo rápido</h3>
+            <p id="dashboard-summary">Protocolos nutricionais, sessão de treino e avaliações médicas alinhadas a seu perfil.</p>
+          </article>
+          <article class="panel-card panel-highlight">
+            <h3>Próximo passo</h3>
+            <p id="next-action">Use o IA Coach para ajustar seu treino após a última sessão.</p>
+          </article>
+        </section>
+
+        <section class="section-block">
+          <div class="section-title">
+            <span>Visão de protocolo</span>
+          </div>
+          <div class="protocol-grid">
+            <div>
+              <strong>Treino</strong>
+              <p id="dashboard-protocol-training">...</p>
+            </div>
+            <div>
+              <strong>Dieta</strong>
+              <p id="dashboard-protocol-nutrition">...</p>
+            </div>
+            <div>
+              <strong>Hormonal</strong>
+              <p id="dashboard-protocol-hormone">...</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="training-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Módulo de Treinos</p>
+            <h2>Banco de exercícios e histórico</h2>
+          </div>
+        </header>
+
+        <div class="grid-2">
+          <article class="panel-card">
+            <h3>Biblioteca de exercícios</h3>
+            <div class="exercise-grid" id="exercise-library"></div>
+          </article>
+          <article class="panel-card">
+            <h3>Registrar sessão</h3>
+            <form id="workout-form" class="form-card">
+              <label>Exercício
+                <input type="text" id="workout-name" placeholder="Ex: Agachamento" required />
+              </label>
+              <label>Duração (min)
+                <input type="number" id="workout-duration" min="5" value="30" required />
+              </label>
+              <label>Intensidade
+                <select id="workout-intensity">
+                  <option>Moderada</option>
+                  <option>Alta</option>
+                  <option>Leve</option>
+                </select>
+              </label>
+              <label>Comentários
+                <textarea id="workout-note" placeholder="Observações, falhas, respiração"></textarea>
+              </label>
+              <button type="submit" class="button-primary">Registrar sessão</button>
+            </form>
+          </article>
+        </div>
+
+        <article class="panel-card">
+          <h3>Histórico de sessões</h3>
+          <ul class="log-list" id="workout-log"></ul>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="nutrition-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Módulo Nutricional</p>
+            <h2>Planos alimentares e macros</h2>
+          </div>
+        </header>
+
+        <div class="grid-2">
+          <article class="panel-card">
+            <h3>Plano atual</h3>
+            <label>Tipo de protocolo
+              <select id="plan-type">
+                <option value="Cutting">Cutting</option>
+                <option value="Bulking">Bulking</option>
+                <option value="Recomp">Recomp</option>
+                <option value="Low carb">Low carb</option>
+                <option value="Cetogênica">Cetogênica</option>
+                <option value="Jejum">Jejum</option>
+                <option value="Mediterrânea">Mediterrânea</option>
+              </select>
+            </label>
+            <label>Peso atual (kg)
+              <input type="number" id="nutrition-weight" min="30" max="180" required />
+            </label>
+            <label>Altura (cm)
+              <input type="number" id="nutrition-height" min="130" max="230" required />
+            </label>
+            <label>Idade
+              <input type="number" id="nutrition-age" min="16" max="90" required />
+            </label>
+            <button id="calculate-macros" class="button-primary">Calcular macros</button>
+          </article>
+          <article class="panel-card panel-highlight">
+            <h3>Macros recomendados</h3>
+            <div class="macro-list">
+              <div><span>Calorias</span><strong id="macro-calories">0 kcal</strong></div>
+              <div><span>Proteínas</span><strong id="macro-protein">0 g</strong></div>
+              <div><span>Carbs</span><strong id="macro-carbs">0 g</strong></div>
+              <div><span>Gorduras</span><strong id="macro-fat">0 g</strong></div>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel-card">
+          <h3>Protocolos nutricionais</h3>
+          <p id="nutrition-protocol">Use o botão acima para gerar seu plano de macros baseado em dados pessoais e objetivos.</p>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="progress-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Progresso e evolução</p>
+            <h2>Gráficos e histórico corporal</h2>
+          </div>
+        </header>
+
+        <div class="grid-2">
+          <article class="panel-card">
+            <h3>Registrar medida</h3>
+            <label>Peso atual (kg)
+              <input type="number" id="progress-weight" min="30" max="180" required />
+            </label>
+            <label>BF (%)
+              <input type="number" id="progress-bf" min="5" max="60" required />
+            </label>
+            <button id="save-progress" class="button-primary">Salvar métricas</button>
+          </article>
+          <article class="panel-card panel-highlight">
+            <h3>Visão atual</h3>
+            <div class="progress-summary">
+              <div><span>Peso recente</span><strong id="summary-weight">— kg</strong></div>
+              <div><span>BF recente</span><strong id="summary-bf">— %</strong></div>
+              <div><span>Consistência semanal</span><strong id="summary-streak">0 dias</strong></div>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel-card">
+          <h3>Histórico de evolução</h3>
+          <ul class="log-list" id="progress-log"></ul>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="coach-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">IA Coach</p>
+            <h2>Sugestões e ajustes automáticos</h2>
+          </div>
+        </header>
+
+        <article class="panel-card">
+          <p>O assistente analisa treino, dieta e histórico para sugerir ações imediatas.</p>
+          <button id="run-ai-coach" class="button-primary">Gerar sugestão IA</button>
+          <div class="ai-response" id="ai-response">Pressione o botão para receber um plano inteligente.</div>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="hormones-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Área Hormonal</p>
+            <h2>Registro seguro e compliance</h2>
+          </div>
+        </header>
+
+        <div class="grid-2">
+          <article class="panel-card">
+            <h3>Registro de sintomas</h3>
+            <label>Sintoma
+              <input type="text" id="hormone-symptom" placeholder="Ex: fadiga" />
+            </label>
+            <label>Data
+              <input type="date" id="hormone-date" />
+            </label>
+            <button id="save-symptom" class="button-primary">Registrar</button>
+          </article>
+          <article class="panel-card panel-highlight">
+            <h3>Upload de exames</h3>
+            <label>Arquivo
+              <input type="file" id="hormone-exam" accept=".pdf,.jpg,.png" />
+            </label>
+            <button id="upload-exam" class="button-primary">Enviar exame</button>
+          </article>
+        </div>
+
+        <article class="panel-card">
+          <h3>Histórico hormonal</h3>
+          <ul class="log-list" id="hormone-log"></ul>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="medical-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Consultoria Médica</p>
+            <h2>Agenda, chat e prescrição</h2>
+          </div>
+        </header>
+
+        <div class="grid-2">
+          <article class="panel-card">
+            <h3>Agendar consulta</h3>
+            <label>Especialidade
+              <select id="appointment-type">
+                <option>Médico</option>
+                <option>Nutricionista</option>
+              </select>
+            </label>
+            <label>Data
+              <input type="date" id="appointment-date" />
+            </label>
+            <label>Hora
+              <input type="time" id="appointment-time" />
+            </label>
+            <button id="save-appointment" class="button-primary">Solicitar consulta</button>
+          </article>
+          <article class="panel-card panel-highlight">
+            <h3>Consultas agendadas</h3>
+            <ul class="log-list" id="appointment-log"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="community-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Comunidade</p>
+            <h2>Conquistas e troca de conhecimento</h2>
+          </div>
+        </header>
+
+        <article class="panel-card">
+          <textarea id="community-post" placeholder="Compartilhe sua vitória ou dúvida"></textarea>
+          <button id="post-community" class="button-primary">Publicar</button>
+        </article>
+        <article class="panel-card">
+          <ul class="log-list" id="community-log"></ul>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="profile-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Perfil</p>
+            <h2>Dados pessoais e protocolos</h2>
+          </div>
+        </header>
+
+        <article class="panel-card">
+          <label>Nome
+            <input type="text" id="profile-name" />
+          </label>
+          <label>E-mail
+            <input type="email" id="profile-email" disabled />
+          </label>
+          <label>Plano atual
+            <input type="text" id="profile-role" disabled />
+          </label>
+          <button id="save-profile" class="button-primary">Salvar perfil</button>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="settings-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Configurações</p>
+            <h2>Preferências do aplicativo</h2>
+          </div>
+        </header>
+
+        <article class="panel-card">
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-darkmode" />
+            Ativar modo escuro
+          </label>
+          <p class="hint">O modo escuro destaca o visual premium e reduz o cansaço visual.</p>
+        </article>
+      </section>
+
+      <section class="screen hide-on-login hidden" id="blueprint-screen">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Planner</p>
+            <h2>Fase 1 — Arquitetura Total</h2>
+          </div>
+        </header>
+
+        <article class="panel-card">
+          <h3>Mapa de telas (UX Flow)</h3>
+          <ul class="bullet-list">
+            <li>Splash → Login → Onboarding inteligente → Dashboard</li>
+            <li>Dashboard → Treino / Dieta / Progresso / IA Coach</li>
+            <li>Área Hormonal → Consultoria Médica → Comunidade</li>
+            <li>Perfil / Configurações / Plano Master</li>
+          </ul>
+        </article>
+
+        <article class="panel-card">
+          <h3>Estrutura de banco de dados</h3>
+          <pre class="schema-block">{
+  users: [
+    { id, name, email, password, role, profile, protocols, progress, workouts, nutrition, hormone, appointments }
+  ],
+  community: [ { id, author, message, date } ],
+  appointments: [ { id, userId, type, date, time, status } ]
+}</pre>
+        </article>
+
+        <article class="panel-card">
+          <h3>Módulos e regras de negócio</h3>
+          <ul class="bullet-list">
+            <li>Usuário comum vê treinos, dieta e progresso básico.</li>
+            <li>Premium/Elite recebem IA Coach e protocolos avançados.</li>
+            <li>Profissionais (médico/nutricionista) acessam consultoria e relatórios.</li>
+            <li>Admin gerencia usuários, planos e acessos.</li>
+            <li>Cada protocolo é individual e armazenado por usuário.</li>
+          </ul>
+        </article>
+
+        <article class="panel-card panel-highlight">
+          <h3>Hierarquia de usuários</h3>
+          <ul class="bullet-list">
+            <li>Admin</li>
+            <li>Médico</li>
+            <li>Nutricionista</li>
+            <li>Usuário Elite</li>
+            <li>Usuário Premium</li>
+            <li>Usuário comum</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
